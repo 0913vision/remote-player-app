@@ -6,6 +6,7 @@ let socket
 const Home = () => {
   const [volume, setVolume] = useState(50);
   const [state, setState] = useState(0);
+  const [mute, setMute] = useState(0);
   useEffect(() => {
     socketInitializer();
   },[]);
@@ -15,18 +16,10 @@ const Home = () => {
 
     socket.on('connect', () => {
       console.log('connected');
+      console.log('내 소켓 ID:', socket.id);
       socket.emit('getVolume');
       socket.emit('getState');
-    })
-
-    socket.on('stateReceived', newState => {
-      setState(newState);
-      socket.off('stateReceived');
-    })
-
-    socket.on('volumeReceived', newVolume => {
-      setVolume(newVolume);
-      socket.off('volumeReceived');
+      socket.emit('getMute');
     })
 
     socket.on('stateChanged', newState => {
@@ -35,12 +28,18 @@ const Home = () => {
     });
 
     socket.on('volumeChanged', newVolume => {
+      console.log(newVolume)
       setVolume(newVolume);
+    });
+
+    socket.on('muteChanged', newMute => {
+      setMute(newMute);
     });
   }
   const handleVolumeChange = (newVolume) => {
     socket.emit('changeVolume', newVolume);
   };
+
   const handleStateChange = () => {
     if(state===0) {
       socket.emit('changeState', 1);
@@ -50,12 +49,26 @@ const Home = () => {
     }
   };
 
+  const handleMuteChange = () => {
+    if(mute===0) {
+      socket.emit('changeMute', 1);
+    }
+    else {
+      socket.emit('changeMute', 0);
+    }
+  };
+
   return (
-    <div>
-      <Fader currentVolume={volume} onVolumeChange={handleVolumeChange} />
-      <p>Current Volume: {volume.toFixed(2)}</p>
-      <p>{state===0 ? "재생중이 아님" : "재생중"}</p>
-      <button onClick={handleStateChange}>{state===0 ? "재생" : "정지"}</button>
+    <div className="grid-container">
+      <div className="left-column">
+        <Fader currentVolume={volume} onVolumeChange={handleVolumeChange} />
+        <button className={`button mute-button row ${mute===1 ? 'mute-active' : 'mute-inactive'}`} onClick={handleMuteChange} >{mute===1 ? "음소거 설정" : "음소거 해제"}</button>
+      </div>
+      <div className="right-column">
+        <div className='volume-text row'>{volume.toFixed(0)}</div>
+        {/* <div className='state-text row'>{state===0 ? }</div> */}
+        <button className="button play-button row" onClick={handleStateChange}>{state===0 ? <div className="red fas fa-pause"/> : <div className="green fas fa-play"/>}</button>
+      </div>
     </div>
   )
 }

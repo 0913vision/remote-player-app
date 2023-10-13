@@ -1,0 +1,100 @@
+body {
+  background-color: #1A1718;
+}
+
+.grid-container {
+  display: flex;
+  flex: 1;
+  grid-template-columns: 1fr 1fr; /* 열의 비율을 조정할 수 있음 */
+  gap: 10px; /* 열과 행 사이의 간격 설정 */
+  align-content: center;
+  justify-content: center;
+  height: 57vh;
+  padding: 20vh 0;
+}
+
+/* 왼쪽 열 스타일 */
+.left-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  justify-content: center;
+  margin: auto;
+}
+
+/* 오른쪽 열 스타일 */
+.right-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 10px; /* 행 사이의 간격 설정 */
+  height: 100%;
+  
+}
+
+.row {
+  /* flex:1;
+  display: flex; */
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  font-family: 'Noto Sans KR', sans-serif;
+  color: #f0f0f0;
+}
+
+.volume-text {
+  justify-content: center;
+  font-size: xx-large;
+  font-weight: 800;
+  font-size: 5rem;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #f0f0f0; /* 배경색을 블랙으로 설정 */
+  color:#111; /* 텍스트 색상을 화이트로 설정 */
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.5s; /* 호버 및 클릭 애니메이션을 위한 전환 효과 */
+}
+
+.play-button:active {
+  background-color: #333;
+  color: #fff;
+}
+.mute-button {
+  margin-top: 20px;
+  transition: 0.7s;
+}
+
+.mute-inactive {
+  background-color: #B52E2A;
+  color: white;
+}
+
+.state-text {
+  font-weight: 400;
+  font-size: 2rem;
+}
+
+.fas {
+  font-size: 3rem;
+}
+
+/* .green {
+  color: green;
+}
+
+.red {
+  color: red;
+} */

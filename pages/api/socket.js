@@ -15,12 +15,10 @@ const SocketHandler = (req, res) => {
         try {
           // 1) volume.txt 파일을 읽어서 현재 볼륨값을 가져옴
           const filePath = './pages/api/volume.txt';
-          const currentVolume = parseFloat(await fs.readFile(filePath, 'utf-8'));
-
           // 2) 새로운 볼륨값을 파일에 쓰고 클라이언트에게 알림
           await fs.writeFile(filePath, newVolume.toString());
           // 3) 수정된 볼륨값을 클라이언트에게 보내줌
-          socket.emit('volumeChanged', newVolume);
+          io.emit('volumeChanged', newVolume);
         } catch (error) {
           console.error('Error:', error);
         }
@@ -32,17 +30,18 @@ const SocketHandler = (req, res) => {
           const currentVolume = parseFloat(await fs.readFile(filePath, 'utf-8'));
 
           // 현재 볼륨값을 클라이언트에게 보내줌
-          socket.emit('volumeReceived', currentVolume);
+          socket.emit('volumeChanged', currentVolume);
         } catch (error) {
           console.error('Error:', error);
         }
       });
+
       socket.on('changeState', async (newState) => {
         try {
           const filePath = './pages/api/state.txt';
           const currentState = parseInt(await fs.readFile(filePath, 'utf-8'));
           await fs.writeFile(filePath, newState.toString());
-          socket.emit('stateChanged', newState);
+          io.emit('stateChanged', newState);
         } catch (error) {
           console.error('Error:', error);
         }
@@ -51,7 +50,27 @@ const SocketHandler = (req, res) => {
         try {
           const filePath = './pages/api/state.txt';
           const currentVolume = parseInt(await fs.readFile(filePath, 'utf-8'));
-          socket.emit('stateReceived', currentVolume);
+          socket.emit('stateChanged', currentVolume);
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      })
+
+      socket.on('changeMute', async (newMute) => {
+        try {
+          const filePath = './pages/api/mute.txt';
+          const currentState = parseInt(await fs.readFile(filePath, 'utf-8'));
+          await fs.writeFile(filePath, newMute.toString());
+          io.emit('muteChanged', newMute);
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      });
+      socket.on('getMute', async () => {
+        try {
+          const filePath = './pages/api/mute.txt';
+          const currentMute = parseInt(await fs.readFile(filePath, 'utf-8'));
+          socket.emit('muteChanged', currentMute);
         } catch (error) {
           console.error('Error:', error);
         }
