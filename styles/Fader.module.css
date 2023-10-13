@@ -1,0 +1,15 @@
+/* Fader.module.css */
+.faderContainer {
+    height: 300px;
+    width: 40px;
+    background-color: grey;
+    position: relative;
+  }
+  
+  .thumb {
+    height: 30px;
+    width: 40px;
+    background-color: black;
+    position: absolute;
+  }
+  

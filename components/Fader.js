@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import styles from '@/styles/Fader.module.css'
 
 const Fader = ({ currentVolume = 50, onVolumeChange }) => {
   // const [volume, setVolume] = useState(currentVolume);
@@ -71,17 +72,14 @@ const Fader = ({ currentVolume = 50, onVolumeChange }) => {
   return (
     <div 
       ref={faderRef} 
-      style={{ height: '300px', width: '40px', backgroundColor: 'grey', position: 'relative' }}
+      className={styles.faderContainer}
       onMouseDown={handleMouseDown} 
       onTouchStart={handleTouchStart}
     >
       <div 
         ref={thumbRef} 
+        className={styles.thumb}
         style={{ 
-          height: '30px', 
-          width: '40px', 
-          backgroundColor: 'black', 
-          position: 'absolute', 
           bottom: `${(currentVolume / 100) * (faderHeight - thumbHeight)}px`
         }}
       ></div>
