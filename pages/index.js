@@ -21,19 +21,19 @@ const Home = () => {
 
     socket.on('connect', () => {
       console.log('connected');
-      console.log('내 소켓 ID:', socket.id);
+      // console.log('내 소켓 ID:', socket.id);
       socket.emit('getVolume');
       socket.emit('getState');
       socket.emit('getMute');
     })
 
     socket.on('stateChanged', newState => {
-      console.log(newState)
+      // console.log(newState)
       setState(newState);
     });
 
     socket.on('volumeChanged', newVolume => {
-      console.log(newVolume)
+      // console.log(newVolume)
       setVolume(newVolume);
     });
 
@@ -64,15 +64,23 @@ const Home = () => {
   };
 
   return (
-    <div className="grid-container">
-      <div className="left-column">
-        <Fader currentVolume={volume} onVolumeChange={handleVolumeChange} />
-        <button className={`button mute-button row ${mute===1 ? 'mute-active' : 'mute-inactive'}`} onClick={handleMuteChange} >{mute===1 ? "음소거 해제" : "음소거"}</button>
+    <div className="container">
+      <div className={`record_container ${state === 1 ? "rotating" : ""}`}>
+        <div className={`pulse ${state===1 ? "pulse1" : ""}`}></div>
+        <div className={`pulse ${state===1 ? "pulse2" : ""}`}></div>
+        {/* <div className="pulse pulse3"></div> */}
+        <img className={`record ${state===1 ? "rotated" : ""}`} src="/record.svg" alt="CD" />
       </div>
-      <div className="right-column">
-        <div className='volume-text row'>{volume.toFixed(0)}</div>
-        {/* <div className='state-text row'>{state===0 ? }</div> */}
-        <button className="button play-button row" onClick={handleStateChange}>{state===1 ? <div className="red fas fa-pause"/> : <div className="green fas fa-play"/>}</button>
+      <div className="grid-container">
+        <div className="left-column">
+          <Fader currentVolume={volume} onVolumeChange={handleVolumeChange} />
+          <button className={`button mute-button row ${mute===1 ? 'mute-active' : 'mute-inactive'}`} onClick={handleMuteChange} >{mute===1 ? "음소거 해제" : "음소거"}</button>
+        </div>
+        <div className="right-column">
+          <div className='volume-text row'>{volume.toFixed(0)}</div>
+          {/* <div className='state-text row'>{state===0 ? }</div> */}
+          <button className="button play-button row" onClick={handleStateChange}>{state===1 ? <div className="red fas fa-pause"/> : <div className="green fas fa-play"/>}</button>
+        </div>
       </div>
     </div>
   )

@@ -14,11 +14,6 @@ const Fader = ({ currentVolume = 50, onVolumeChange }) => {
     setThumbHeight(thumbRef.current.offsetHeight);
   }, []);
 
-  useEffect(() => {
-    // setVolume(currentVolume);
-    console.log(currentVolume)
-  }, [currentVolume]);
-
   const handleMove = (clientY) => {
     const { top, height } = faderRef.current.getBoundingClientRect();
     const thumbHeight = thumbRef.current.offsetHeight;

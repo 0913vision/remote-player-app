@@ -7,15 +7,104 @@ body, html {
   height: 100%;
 }
 
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.container {
+  padding: 5vh 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-content: center;
+  justify-content: center;
+  height: 80vh;
+}
+.record_container {
+  align-content: center;
+  justify-content: center;
+  display: flex;
+  height: 100%;
+  position: relative;
+}
+
+.record {
+  position: relative;
+  width: 25vh;
+}
+
+.rotated {
+  animation: recordAnimation 3s infinite ease-in-out;
+  animation-delay: -0.35s;
+}
+
+@keyframes recordAnimation {
+  0%, 35%, 65%, 100% {
+    transform: scale(1);
+    filter: brightness(100%);
+  }
+  50% {
+    transform: scale(0.97);
+    filter: brightness(85%);
+  }
+}
+
+
+.pulse {
+  position: absolute;
+  background-color: transparent;
+  border-radius: 50%;
+  width: 30vh;
+  height: 30vh;
+  top: 12.5vh;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 2px solid rgba(255, 255, 255, 0.8); /* 테두리만 있는 원 */
+  opacity: 0; /* 초기에는 완전히 투명 */
+  z-index: -1;
+}
+
+.pulse1 {
+  animation: pulseAnimation 3s infinite;
+  animation-delay: 0s; /* 첫 번째 펄스의 딜레이 */
+}
+
+.pulse2 {
+  animation: pulseAnimation 3s infinite;
+  animation-delay: 0.32s; /* 두 번째 펄스의 딜레이 */
+}
+
+.pulse3 {
+  animation: pulseAnimation 3s infinite;
+  animation-delay: 0.8s; /* 세 번째 펄스의 딜레이 */
+}
+
+@keyframes pulseAnimation {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.15);
+    opacity: 0;
+  }
+}
+
+.rotating {
+  animation: spin 20s linear infinite;
+  margin: 0 auto;
+}
+
 .grid-container {
   display: flex;
   flex: 1;
-  grid-template-columns: 1fr 1fr; /* 열의 비율을 조정할 수 있음 */
   gap: 10px; /* 열과 행 사이의 간격 설정 */
   align-content: center;
   justify-content: center;
-  height: 57vh;
-  padding: 20vh 0;
 }
 
 /* 왼쪽 열 스타일 */
@@ -106,9 +195,12 @@ body, html {
 } */
 
 @media (min-width: 768px) and (max-width: 1024px) {
+  .container {
+    padding: 7vh 5vh;
+  }
+  
   .grid-container {
       gap: 20px; 
-      padding: 15vh 5vh;
   }
 
   .left-column, .right-column {
@@ -133,15 +225,19 @@ body, html {
   }
 
   .mute-button {
-    min-width: 280px;
-    min-height: 80px;
+    min-width: 250px;
+    min-height: 50px;
     margin-top: 40px;
-    font-size: 2.8rem;
+    font-size: 2.5rem;
     padding: 30px 10px;
   }
 
   .play-button {
-    padding: 40px 40px;
+    padding: 40px;
     min-width: 200px;
+  }
+
+  .right-column {
+    transform: translateY(-9vh);
   }
 }
