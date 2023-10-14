@@ -65,11 +65,11 @@ const Home = () => {
 
   return (
     <div className="container">
-      <div className={`record_container ${state === 1 ? "rotating" : ""}`}>
+      <div className={`record_container`}>
         <div className={`pulse ${state===1 ? "pulse1" : ""}`}></div>
         <div className={`pulse ${state===1 ? "pulse2" : ""}`}></div>
         {/* <div className="pulse pulse3"></div> */}
-        <img className={`record ${state===1 ? "rotated" : ""}`} src="/record.svg" alt="CD" />
+        <img className={`record ${state===1 ? "rotated rotating" : ""}`} src="/record.svg" alt="CD" />
       </div>
       <div className="grid-container">
         <div className="left-column">
