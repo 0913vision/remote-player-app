@@ -10,6 +10,10 @@ const Home = () => {
   const [mute, setMute] = useState(0);
   useEffect(() => {
     socketInitializer();
+    const preventDefaultTouchMove = (e) => {
+      e.preventDefault();
+    };
+    document.addEventListener('touchmove', preventDefaultTouchMove, { passive: false });
   },[]);
   const socketInitializer = async () => {
     await fetch('/api/socket')

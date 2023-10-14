@@ -66,6 +66,7 @@ const Fader = ({ currentVolume = 50, onVolumeChange }) => {
   };
 
   const handleTouchMove = (e) => {
+    e.stopPropagation();
     handleMove(e.touches[0].clientY);
   };
 

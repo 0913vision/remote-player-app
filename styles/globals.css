@@ -2,6 +2,11 @@ body {
   background-color: #1A1718;
 }
 
+body, html {
+  overflow: hidden;
+  height: 100%;
+}
+
 .grid-container {
   display: flex;
   flex: 1;
