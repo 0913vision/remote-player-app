@@ -7,6 +7,11 @@ body, html {
   height: 100%;
 }
 
+.rotating {
+  animation: spin 20s linear infinite;
+  margin: 0 auto;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -24,12 +29,21 @@ body, html {
   justify-content: center;
   height: 80vh;
 }
+
 .record_container {
   align-content: center;
   justify-content: center;
   display: flex;
   height: 100%;
   position: relative;
+}
+
+.image_container {
+  display: flex;
+  height: 100%;
+  position: relative;
+  align-content: center;
+  justify-content: center;
 }
 
 .record {
@@ -75,7 +89,7 @@ body, html {
 
 .pulse2 {
   animation: pulseAnimation 3s infinite;
-  animation-delay: 0.32s; /* 두 번째 펄스의 딜레이 */
+  animation-delay: 0.34s; /* 두 번째 펄스의 딜레이 */
 }
 
 .pulse3 {
@@ -92,11 +106,6 @@ body, html {
     transform: translate(-50%, -50%) scale(1.15);
     opacity: 0;
   }
-}
-
-.rotating {
-  animation: spin 20s linear infinite;
-  margin: 0 auto;
 }
 
 .grid-container {
