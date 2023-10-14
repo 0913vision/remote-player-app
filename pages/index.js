@@ -1,7 +1,8 @@
 import {useEffect, useState} from 'react';
 import io from 'socket.io-client'
 import Fader from '../components/Fader'
-let socket
+
+let socket;
 
 const Home = () => {
   const [volume, setVolume] = useState(50);
@@ -62,7 +63,7 @@ const Home = () => {
     <div className="grid-container">
       <div className="left-column">
         <Fader currentVolume={volume} onVolumeChange={handleVolumeChange} />
-        <button className={`button mute-button row ${mute===1 ? 'mute-active' : 'mute-inactive'}`} onClick={handleMuteChange} >{mute===1 ? "음소거" : "음소거 해제"}</button>
+        <button className={`button mute-button row ${mute===1 ? 'mute-active' : 'mute-inactive'}`} onClick={handleMuteChange} >{mute===1 ? "음소거 해제" : "음소거"}</button>
       </div>
       <div className="right-column">
         <div className='volume-text row'>{volume.toFixed(0)}</div>
