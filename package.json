@@ -9,9 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "ffi-napi": "^4.0.3",
     "next": "13.5.4",
     "react": "^18",
     "react-dom": "^18",
+    "ref-array-napi": "^1.2.2",
+    "ref-napi": "^3.0.3",
     "socket.io": "^4.7.2",
     "socket.io-client": "^4.7.2"
   }

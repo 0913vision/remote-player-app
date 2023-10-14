@@ -62,12 +62,12 @@ const Home = () => {
     <div className="grid-container">
       <div className="left-column">
         <Fader currentVolume={volume} onVolumeChange={handleVolumeChange} />
-        <button className={`button mute-button row ${mute===1 ? 'mute-active' : 'mute-inactive'}`} onClick={handleMuteChange} >{mute===1 ? "음소거 설정" : "음소거 해제"}</button>
+        <button className={`button mute-button row ${mute===1 ? 'mute-active' : 'mute-inactive'}`} onClick={handleMuteChange} >{mute===1 ? "음소거" : "음소거 해제"}</button>
       </div>
       <div className="right-column">
         <div className='volume-text row'>{volume.toFixed(0)}</div>
         {/* <div className='state-text row'>{state===0 ? }</div> */}
-        <button className="button play-button row" onClick={handleStateChange}>{state===0 ? <div className="red fas fa-pause"/> : <div className="green fas fa-play"/>}</button>
+        <button className="button play-button row" onClick={handleStateChange}>{state===1 ? <div className="red fas fa-pause"/> : <div className="green fas fa-play"/>}</button>
       </div>
     </div>
   )
