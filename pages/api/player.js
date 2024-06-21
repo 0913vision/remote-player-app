@@ -3,8 +3,8 @@ import ref from 'ref-napi';
 import array from 'ref-array-napi';
 
 const StringArray = array('string');
-const libmpvPath = '/opt/homebrew/lib/libmpv.dylib'; // 맥
-// const libmpvPath = '/lib/arm-linux-gnueabihf/libmpv.so'; // 라즈베리파이
+// const libmpvPath = '/opt/homebrew/lib/libmpv.dylib'; // 맥
+const libmpvPath = '/lib/arm-linux-gnueabihf/libmpv.so'; // 라즈베리파이
 
 const mpv = ffi.Library(libmpvPath, {
   'mpv_create': ['pointer', []],
