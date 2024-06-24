@@ -32,8 +32,6 @@ const mpv = ffi.Library(libmpvPath, {
   'mpv_wait_event': [mpv_event, ['pointer', 'double']]
 });
 
-
-
 let userdataCounter = 0;
 
 const MPV_EVENT_NONE = 0;
@@ -41,9 +39,18 @@ const MPV_EVENT_COMMAND_REPLY = 5;
 
 const mpvHandle = mpv.mpv_create();
 mpv.mpv_initialize(mpvHandle);
-const playCommand = ["loadfile", "./pages/api/music_slow.mp3", null];
+const playlist = ["./pages/api/music_slow.mp3", "./pages/api/music_fast.mp3"];
+let currentTrackIndex = 0;
+const playCommand = ["loadfile", playlist[currentTrackIndex], null];
 
-mpv.mpv_set_option_string(mpvHandle, "loop", "inf");
+// mpv.mpv_set_option_string(mpvHandle, "loop", "inf");
+mpv.mpv_set_property_string(mpvHandle, "loop", "inf");
+const nextTrack = (index) => {
+  // currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+  const nextCommand = ["loadfile", playlist[index], null];
+  mpv.mpv_command(mpvHandle, nextCommand);
+};
+
 mpv.mpv_command(mpvHandle, playCommand);
 mpv.mpv_set_property_string(mpvHandle, "pause", "yes");
 
@@ -91,13 +98,16 @@ const changeSong = (currentSong, newSong) => {
   // console.log(newSong, currentSongTimes[newSong]);
   currentSongTimes[currentSong] = currentSongTime;
 
-  const songPath = newSong === 'slow' ? "./pages/api/music_slow.mp3" : "./pages/api/music_fast.mp3";
-  const changeCommand = ["loadfile", songPath, "replace"];
-  const timePosBuffer = ref.alloc('double', currentSongTimes[newSong]);
-
   // call mpv library
 
-  mpv.mpv_command(mpvHandle, changeCommand);
+  if(newSong === "slow") {
+    nextTrack(0);
+  } else if(newSong === "fast") {
+    nextTrack(1);
+  }
+
+  // mpv.mpv_command(mpvHandle, changeCommand);
+  
   /*
   const expectedUserData = userdataCounter++;
   mpv.mpv_command_async(mpvHandle, expectedUserData, changeCommand);
