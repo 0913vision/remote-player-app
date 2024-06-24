@@ -1,11 +1,12 @@
 import { Server } from 'socket.io'
 // import fs from 'fs/promises';
-import { pause, resume, setVolume } from './player';
+import { pause, resume, setVolume, changeSong, loadLastSongTime } from './player';
 
 const initailConfig = {
   serverVolume: 50,
   muted: 0,
-  state: 0
+  state: 0,
+  currentSong: 'slow',
 };
 
 const SocketHandler = (req, res) => {
@@ -59,7 +60,15 @@ const SocketHandler = (req, res) => {
         } catch (error) {
           console.error('Error:', error);
         }
-      })
+      });
+
+      socket.on('getCurrentSong', async () => {
+        try {
+          socket.emit('songChanged', currentConfig.currentSong);
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      });
 
       socket.on('changeMute', async (newMute) => {
         try {
@@ -80,7 +89,26 @@ const SocketHandler = (req, res) => {
         } catch (error) {
           console.error('Error:', error);
         }
-      })
+      });
+
+      socket.on('changeSong', async (currentSong, newSong) => {
+        try {
+          console.log("Changing song:", currentSong, newSong)
+          // console.log('Changing song:', newSong)
+          changeSong(currentSong, newSong);
+          currentConfig = {
+            ...currentConfig,
+            state: 0,
+            currentSong: newSong
+          };
+          pause();
+          loadLastSongTime(newSong);
+          io.emit('songChanged', newSong);
+          io.emit('stateChanged', 0);
+        } catch (error) {
+          console.error('Error changing song:', error);
+        }
+      });
     });
   }
   res.end()

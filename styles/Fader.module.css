@@ -1,6 +1,6 @@
 /* Fader.module.css */
 .faderContainer {
-  height: 300px;
+  height: 40dvh;
   width: 25px;
   background-color: #444;
   position: relative;
