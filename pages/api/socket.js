@@ -93,7 +93,7 @@ const SocketHandler = (req, res) => {
 
       socket.on('changeSong', async (currentSong, newSong) => {
         try {
-          console.log("Changing song:", currentSong, newSong)
+          // console.log("Changing song:", currentSong, newSong)
           // console.log('Changing song:', newSong)
           changeSong(currentSong, newSong);
           currentConfig = {

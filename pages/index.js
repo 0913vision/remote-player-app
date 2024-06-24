@@ -44,7 +44,7 @@ const Home = () => {
     });
 
     socket.on('songChanged', (newSong) => {
-      console.log(newSong);
+      // console.log(newSong);
       setCurrentSong(newSong);
     });
     

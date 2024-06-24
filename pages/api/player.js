@@ -49,12 +49,12 @@ mpv.mpv_set_property_string(mpvHandle, "pause", "yes");
 
 
 const pause = () => {
-  console.log("pause called.");
+  // console.log("pause called.");
   mpv.mpv_set_property_string(mpvHandle, "pause", "yes");
 };
 
 const resume = () => {
-  console.log("resume called.");
+  // console.log("resume called.");
   mpv.mpv_set_property_string(mpvHandle, "pause", "no");
 };
 
@@ -70,7 +70,7 @@ const changeSong = (currentSong, newSong) => {
   };
 
   const currentSongTime = getCurrentSongTime();
-  console.log(newSong, currentSongTimes[newSong]);
+  // console.log(newSong, currentSongTimes[newSong]);
   currentSongTimes[currentSong] = currentSongTime;
 
   const songPath = newSong === 'slow' ? "./pages/api/music_slow.mp3" : "./pages/api/music_fast.mp3";
@@ -101,7 +101,7 @@ const loadLastSongTime = (song) => {
   // setTimeout(() => {
 do {
   mpv.mpv_set_property_string(mpvHandle, "playback-time", currentSongTimes[song].toString());
-  console.log(currentSongTimes[song].toString());
+  // console.log(currentSongTimes[song].toString());
   } while (parseFloat(mpv.mpv_get_property_string(mpvHandle, "playback-time")) !== currentSongTimes[song]);
   // }, 100);
 }
