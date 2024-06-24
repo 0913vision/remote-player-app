@@ -56,13 +56,6 @@ const Home = () => {
   const handleSongChange = (newSong) => {
     if (currentSong === newSong) return;
     socket.emit('changeSong', currentSong, newSong);
-    socket.emit('changeState', 0);
-    if (newSong === 'fast') {
-      socket.emit('changeVolume', 35);
-    }
-    else if (newSong === 'slow') {
-      socket.emit('changeVolume', 50);
-    }
   };
 
   const handleVolumeChange = (newVolume) => {

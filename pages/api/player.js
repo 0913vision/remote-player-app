@@ -48,14 +48,30 @@ mpv.mpv_command(mpvHandle, playCommand);
 mpv.mpv_set_property_string(mpvHandle, "pause", "yes");
 
 
-const pause = () => {
+const pause = async () => {
   // console.log("pause called.");
+  const currentVolume = parseFloat(mpv.mpv_get_property_string(mpvHandle, "volume"));
+  for (let i = 0; i <= 10; i++) {
+    const volume = currentVolume * (1-(i / 10));
+    mpv.mpv_set_property_string(mpvHandle, "volume", volume.toString());
+    await delay(100);
+  }
   mpv.mpv_set_property_string(mpvHandle, "pause", "yes");
+  mpv.mpv_set_property_string(mpvHandle, "volume", currentVolume.toString());
 };
 
-const resume = () => {
+const resume = async () => {
   // console.log("resume called.");
+  const currentVolume = parseFloat(mpv.mpv_get_property_string(mpvHandle, "volume"));
+  mpv.mpv_set_property_string(mpvHandle, "volume", "0");
   mpv.mpv_set_property_string(mpvHandle, "pause", "no");
+  for (let i = 0; i <= 10; i++) {
+    const volume = currentVolume * (i / 10);
+    // console.log(volume);
+    mpv.mpv_set_property_string(mpvHandle, "volume", volume.toString());
+    await delay(100);
+  }
+  // mpv.mpv_set_property_string(mpvHandle, "volume", currentVolume.toString());
 };
 
 const setVolume = (volume) => {
@@ -63,6 +79,8 @@ const setVolume = (volume) => {
 };
 
 const changeSong = (currentSong, newSong) => {
+  // const currentVolume = parseFloat(mpv.mpv_get_property_string(mpvHandle, "volume"));
+  // mpv.mpv_set_property_string(mpvHandle, "volume", "0");
   const getCurrentSongTime = () => {
     const response = mpv.mpv_get_property_string(mpvHandle, "playback-time");
     const currentTime = parseFloat(response);

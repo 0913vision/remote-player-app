@@ -43,13 +43,22 @@ const SocketHandler = (req, res) => {
       });
 
       socket.on('changeState', async (newState) => {
+        if(newState === currentConfig.state) return;
+
+        if(newState === 1) {
+          io.emit('stateChanged', newState);
+        }
+
         try {
           currentConfig = {
             ...currentConfig,
             state: newState,
           };
-          newState===1 ? resume() : pause() ;
-          io.emit('stateChanged', newState);
+          newState===1 ? await resume() : await pause() ;
+          
+          if(newState === 0) {
+            io.emit('stateChanged', newState);
+          }
         } catch (error) {
           console.error('Error:', error);
         }
@@ -95,16 +104,32 @@ const SocketHandler = (req, res) => {
         try {
           // console.log("Changing song:", currentSong, newSong)
           // console.log('Changing song:', newSong)
+          if (currentConfig.state === 1) await pause();
           changeSong(currentSong, newSong);
           currentConfig = {
             ...currentConfig,
             state: 0,
             currentSong: newSong
           };
-          pause();
           loadLastSongTime(newSong);
-          io.emit('songChanged', newSong);
+          if (newSong === 'slow') {
+            currentConfig = {
+              ...currentConfig,
+              serverVolume: 50,
+            };
+            setVolume(50);
+            io.emit('volumeChanged', 50);
+          }
+          else if (newSong === 'fast') {
+            currentConfig = {
+              ...currentConfig,
+              serverVolume: 35,
+            };
+            setVolume(35);
+            io.emit('volumeChanged', 35);
+          }
           io.emit('stateChanged', 0);
+          io.emit('songChanged', newSong);
         } catch (error) {
           console.error('Error changing song:', error);
         }
