@@ -14,8 +14,16 @@ const SocketHandler = (req, res) => {
     console.log('Socket is already running')
   } else {
     console.log('Socket is initializing')
-    const io = new Server(res.socket.server)
+    // const io = new Server(res.socket.server)
+    const io = new Server(res.socket.server, {
+      path: '/api/socket',
+      cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+      }
+    })
     res.socket.server.io = io
+    global.io = io
 
     let currentConfig = {...initailConfig};
     setVolume(currentConfig.serverVolume);
@@ -59,6 +67,7 @@ const SocketHandler = (req, res) => {
           if(newState === 0) {
             io.emit('stateChanged', newState);
           }
+          io.emit('stateLockRelesed');
         } catch (error) {
           console.error('Error:', error);
         }
@@ -130,6 +139,7 @@ const SocketHandler = (req, res) => {
           }
           io.emit('stateChanged', 0);
           io.emit('songChanged', newSong);
+          io.emit('stateLockRelesed');
         } catch (error) {
           console.error('Error changing song:', error);
         }

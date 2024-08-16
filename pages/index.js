@@ -9,6 +9,9 @@ const Home = () => {
   const [state, setState] = useState(0);
   const [mute, setMute] = useState(0);
   const [currentSong, setCurrentSong] = useState('slow');
+
+  let isStateChanging = false;
+
   useEffect(() => {
     socketInitializer();
     const preventDefaultTouchMove = (e) => {
@@ -18,7 +21,9 @@ const Home = () => {
   },[]);
   const socketInitializer = async () => {
     await fetch('/api/socket')
-    socket = io()
+    socket = io({
+      path: '/api/socket',
+    })
 
     socket.on('connect', () => {
       console.log('connected');
@@ -34,6 +39,10 @@ const Home = () => {
       setState(newState);
     });
 
+    socket.on('stateLockRelesed', () => {
+      isStateChanging = false;
+    });
+
     socket.on('volumeChanged', newVolume => {
       // console.log(newVolume)
       setVolume(newVolume);
@@ -45,6 +54,8 @@ const Home = () => {
 
     socket.on('songChanged', (newSong) => {
       // console.log(newSong);
+      // if(isStateChanging) return;
+      // isStateChanging = true;
       setCurrentSong(newSong);
     });
     
@@ -63,6 +74,8 @@ const Home = () => {
   };
 
   const handleStateChange = () => {
+    // if(isStateChanging) return;
+    // isStateChanging = true;
     if(state===0) {
       socket.emit('changeState', 1);
     }
