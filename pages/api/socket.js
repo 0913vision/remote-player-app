@@ -20,13 +20,17 @@ const SocketHandler = (req, res) => {
       cors: {
         origin: "*",
         methods: ["GET", "POST"]
-      }
+      },
     })
     res.socket.server.io = io
     global.io = io
 
     let currentConfig = {...initailConfig};
     setVolume(currentConfig.serverVolume);
+
+    const pingInterval = setInterval(() => {
+      io.emit('ping');
+    }, 30000); // Send ping every 30 seconds
 
     // 클라이언트에서 'changeVolume' 이벤트를 수신하여 볼륨값 변경
     io.on('connection', (socket) => {
