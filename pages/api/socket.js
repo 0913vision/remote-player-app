@@ -1,6 +1,7 @@
 import { Server } from 'socket.io'
 // import fs from 'fs/promises';
 import { pause, resume, setVolume, changeSong, loadLastSongTime } from './player';
+import { micOn } from './console';
 
 const initailConfig = {
   serverVolume: 50,
@@ -146,6 +147,13 @@ const SocketHandler = (req, res) => {
           io.emit('stateLockRelesed');
         } catch (error) {
           console.error('Error changing song:', error);
+        }
+      });
+      socket.on('micOn', () => {
+        try {
+          micOn();
+        } catch (error) {
+          console.error('Error:', error);
         }
       });
     });
