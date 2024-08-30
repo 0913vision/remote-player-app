@@ -1,5 +1,5 @@
 import { resume, pause, setVolume, changeSong, loadLastSongTime } from './player';
-import { micOn } from './console';
+import { auxOn, micOn } from './console';
 import { Server } from 'socket.io';
 
 export default function handler(req, res) {
@@ -29,6 +29,10 @@ export default function handler(req, res) {
             case 'micOn':
                 micOn();
                 io.emit('micOn');
+                break;
+            case 'auxOn':
+                auxOn();
+                io.emit('auxOn');
                 break;
             default:
                 return res.status(400).json({ error: 'Invalid action' });

@@ -47,8 +47,51 @@ function sendOscCommand(address, args) {
     });
 }
 
-function micOn() {
-    toggleMuteGroup();
+function toggleMicrophone() {
+    return new Promise((resolve, reject) => {
+      const muteAddress1 = `/ch/01/mix/on`;
+      const muteAddress2 = `/ch/02/mix/on`;
+
+  
+      const sequence = async () => {
+            try {
+                await sendOscCommand(muteAddress1, 1);
+                await sendOscCommand(muteAddress2, 1);
+                resolve();
+            } catch (error) {
+                reject(error);
+            }
+        };
+  
+      sequence();
+    });
 }
 
-export { micOn };
+function toggleRaspberrypiAux() {
+    return new Promise((resolve, reject) => {
+      const muteAddress = `/auxin/05/mix/on`;
+  
+      const sequence = async () => {
+            try {
+                await sendOscCommand(muteAddress, 1);
+                resolve();
+            } catch (error) {
+                reject(error);
+            }
+        };
+  
+      sequence();
+    });
+}
+
+function micOn() {
+    toggleMicrophone();
+}
+
+function auxOn() {
+    toggleRaspberrypiAux();
+}
+
+
+
+export { micOn, auxOn };

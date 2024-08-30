@@ -1,7 +1,7 @@
 import { Server } from 'socket.io'
 // import fs from 'fs/promises';
 import { pause, resume, setVolume, changeSong, loadLastSongTime } from './player';
-import { micOn } from './console';
+import { auxOn, micOn } from './console';
 
 const initailConfig = {
   serverVolume: 50,
@@ -152,6 +152,13 @@ const SocketHandler = (req, res) => {
       socket.on('micOn', () => {
         try {
           micOn();
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      });
+      socket.on('auxOn', () => {
+        try {
+          auxOn();
         } catch (error) {
           console.error('Error:', error);
         }
