@@ -11,6 +11,7 @@
   "dependencies": {
     "ffi-napi": "^4.0.3",
     "next": "13.5.4",
+    "osc": "^2.4.5",
     "react": "^18",
     "react-dom": "^18",
     "ref-array-napi": "^1.2.2",
