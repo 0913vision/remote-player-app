@@ -56,10 +56,10 @@ mpv.mpv_set_property_string(mpvHandle, "pause", "yes");
 
 
 const pause = async () => {
-  // console.log("pause called.");
   const currentVolume = parseFloat(mpv.mpv_get_property_string(mpvHandle, "volume"));
-  for (let i = 0; i <= 10; i++) {
-    const volume = currentVolume * (1-(i / 10));
+  for (let i = 0; i <= 15; i++) {
+    const t = i / 15;
+    const volume = currentVolume * (1 - t * t);
     mpv.mpv_set_property_string(mpvHandle, "volume", volume.toString());
     await delay(100);
   }
@@ -68,17 +68,15 @@ const pause = async () => {
 };
 
 const resume = async () => {
-  // console.log("resume called.");
   const currentVolume = parseFloat(mpv.mpv_get_property_string(mpvHandle, "volume"));
   mpv.mpv_set_property_string(mpvHandle, "volume", "0");
   mpv.mpv_set_property_string(mpvHandle, "pause", "no");
-  for (let i = 0; i <= 10; i++) {
-    const volume = currentVolume * (i / 10);
-    // console.log(volume);
+  for (let i = 0; i <= 15; i++) {
+    const t = i / 15;
+    const volume = currentVolume * (t * t);
     mpv.mpv_set_property_string(mpvHandle, "volume", volume.toString());
     await delay(100);
   }
-  // mpv.mpv_set_property_string(mpvHandle, "volume", currentVolume.toString());
 };
 
 const setVolume = (volume) => {
