@@ -51,12 +51,16 @@ function toggleMicrophone() {
     return new Promise((resolve, reject) => {
       const muteAddress1 = `/ch/01/mix/on`;
       const muteAddress2 = `/ch/02/mix/on`;
+      const levelAddress1 = `/ch/01/mix/fader`;
+      const levelAddress2 = `/ch/02/mix/fader`;
 
   
       const sequence = async () => {
             try {
                 await sendOscCommand(muteAddress1, 1);
                 await sendOscCommand(muteAddress2, 1);
+                await sendOscCommand(levelAddress1, -4.5);
+                await sendOscCommand(levelAddress2, 1.5);
                 resolve();
             } catch (error) {
                 reject(error);
@@ -70,10 +74,12 @@ function toggleMicrophone() {
 function toggleRaspberrypiAux() {
     return new Promise((resolve, reject) => {
       const muteAddress = `/auxin/05/mix/on`;
+      const levelAddress = `/auxin/05/mix/fader`;
   
       const sequence = async () => {
             try {
                 await sendOscCommand(muteAddress, 1);
+                await sendOscCommand(levelAddress, 0.0);
                 resolve();
             } catch (error) {
                 reject(error);

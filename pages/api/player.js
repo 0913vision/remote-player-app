@@ -71,8 +71,8 @@ const resume = async () => {
   const currentVolume = parseFloat(mpv.mpv_get_property_string(mpvHandle, "volume"));
   mpv.mpv_set_property_string(mpvHandle, "volume", "0");
   mpv.mpv_set_property_string(mpvHandle, "pause", "no");
-  for (let i = 0; i <= 25; i++) {
-    const t = i / 25;
+  for (let i = 0; i <= 30; i++) {
+    const t = i / 30;
     const volume = currentVolume * Math.sin((Math.PI / 2) * t);
     mpv.mpv_set_property_string(mpvHandle, "volume", volume.toString());
     await delay(100);
