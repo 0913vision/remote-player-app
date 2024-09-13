@@ -5,8 +5,8 @@ import array from 'ref-array-napi';
 import Struct from 'ref-struct-di';
 
 const StringArray = array('string');
-const libmpvPath = '/opt/homebrew/lib/libmpv.dylib'; // 맥
-// const libmpvPath = '/lib/arm-linux-gnueabihf/libmpv.so'; // 라즈베리파이
+// const libmpvPath = '/opt/homebrew/lib/libmpv.dylib'; // 맥
+const libmpvPath = '/lib/arm-linux-gnueabihf/libmpv.so'; // 라즈베리파이
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -57,9 +57,9 @@ mpv.mpv_set_property_string(mpvHandle, "pause", "yes");
 
 const pause = async () => {
   const currentVolume = parseFloat(mpv.mpv_get_property_string(mpvHandle, "volume"));
-  for (let i = 0; i <= 15; i++) {
-    const t = i / 15;
-    const volume = currentVolume * (1 - t * t);
+  for (let i = 0; i <= 20; i++) {
+    const t = i / 20;
+    const volume = currentVolume * Math.cos((Math.PI / 4) * t);
     mpv.mpv_set_property_string(mpvHandle, "volume", volume.toString());
     await delay(100);
   }
@@ -71,9 +71,9 @@ const resume = async () => {
   const currentVolume = parseFloat(mpv.mpv_get_property_string(mpvHandle, "volume"));
   mpv.mpv_set_property_string(mpvHandle, "volume", "0");
   mpv.mpv_set_property_string(mpvHandle, "pause", "no");
-  for (let i = 0; i <= 15; i++) {
-    const t = i / 15;
-    const volume = currentVolume * (t * t);
+  for (let i = 0; i <= 20; i++) {
+    const t = i / 20;
+    const volume = currentVolume * Math.sin((Math.PI / 4) * t);
     mpv.mpv_set_property_string(mpvHandle, "volume", volume.toString());
     await delay(100);
   }
