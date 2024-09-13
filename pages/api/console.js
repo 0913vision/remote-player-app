@@ -74,7 +74,7 @@ function toggleMicrophone() {
 function toggleRaspberrypiAux() {
     return new Promise((resolve, reject) => {
       const muteAddress = `/auxin/05/mix/on`;
-      const levelAddress = `/auxin/05/mix/fader`;
+      const levelAddress = `/auxin/05/mix/mlevel`;
   
       const sequence = async () => {
             try {
