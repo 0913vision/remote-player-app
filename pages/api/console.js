@@ -59,8 +59,8 @@ function toggleMicrophone() {
             try {
                 await sendOscCommand(muteAddress1, 1);
                 await sendOscCommand(muteAddress2, 1);
-                await sendOscCommand(levelAddress1, 0.637);
-                await sendOscCommand(levelAddress2, 0.787);
+                await sendOscCommand(levelAddress1, 0.687);
+                await sendOscCommand(levelAddress2, 0.837);
                 resolve();
             } catch (error) {
                 reject(error);

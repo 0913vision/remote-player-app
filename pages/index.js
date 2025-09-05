@@ -9,6 +9,7 @@ const Home = () => {
   const [state, setState] = useState(0);
   const [mute, setMute] = useState(0);
   const [currentSong, setCurrentSong] = useState('slow');
+  const [lock, setLock] = useState(false);
 
   let isStateChanging = false;
 
@@ -32,15 +33,12 @@ const Home = () => {
       socket.emit('getState');
       socket.emit('getMute');
       socket.emit('getCurrentSong');
+      socket.emit('getLock');
     })
 
     socket.on('stateChanged', newState => {
       // console.log(newState)
       setState(newState);
-    });
-
-    socket.on('stateLockRelesed', () => {
-      isStateChanging = false;
     });
 
     socket.on('volumeChanged', newVolume => {
@@ -57,6 +55,10 @@ const Home = () => {
       // if(isStateChanging) return;
       // isStateChanging = true;
       setCurrentSong(newSong);
+    });
+
+    socket.on('lockChanged', (newLock) => {
+      setLock(newLock);
     });
     
   }
@@ -107,20 +109,20 @@ const Home = () => {
         <div className="grid-item song-selection">
           <div className={`song-option ${currentSong === 'slow' ? 'active' : ''}`}>
             <div className="checkbox">{currentSong === 'slow' ? '✓' : ''}</div>
-            <button className="song-button" onClick={() => handleSongChange('slow')}>
+            <button className="song-button" onClick={() => handleSongChange('slow')} disabled={lock}>
               잔잔한 음악
             </button>
           </div>
           <div className={`song-option ${currentSong === 'fast' ? 'active' : ''}`}>
             <div className="checkbox">{currentSong === 'fast' ? '✓' : ''}</div>
-            <button className="song-button" onClick={() => handleSongChange('fast')}>
+            <button className="song-button" onClick={() => handleSongChange('fast')} disabled={lock}>
               통성기도 음악
             </button>
           </div>
         </div>
         
         <div className="grid-item volume-controls">
-          <Fader currentVolume={volume} onVolumeChange={handleVolumeChange} />
+          <Fader currentVolume={volume} onVolumeChange={handleVolumeChange} isDisabled={lock}/>
           {/* <button className={`button mute-button ${mute === 1 ? 'mute-active' : ''}`} onClick={handleMuteChange}>
             {mute === 1 ? "음소거 해제" : "음소거"}
           </button> */}
@@ -131,7 +133,7 @@ const Home = () => {
             <i className="fas fa-sync-alt"></i>
           </button>
           <div className='volume-text'>{volume.toFixed(0)}</div>
-          <button className="button play-button" onClick={handleStateChange}>
+          <button className="button play-button" onClick={handleStateChange} disabled={lock}>
             {state === 1 ? <div className="fas fa-pause"/> : <div className="fas fa-play"/>}
           </button>
         </div>

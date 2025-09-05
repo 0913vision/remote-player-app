@@ -8,6 +8,7 @@ const initailConfig = {
   muted: 0,
   state: 0,
   currentSong: 'slow',
+  lock: false,
 };
 
 const SocketHandler = (req, res) => {
@@ -35,6 +36,14 @@ const SocketHandler = (req, res) => {
 
     // 클라이언트에서 'changeVolume' 이벤트를 수신하여 볼륨값 변경
     io.on('connection', (socket) => {
+      socket.on('getLock', async () => {
+        try {
+          socket.emit('lockChanged', currentConfig.lock);
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      });
+
       socket.on('changeVolume', async (newVolume) => {
         try {
           currentConfig = {
@@ -57,25 +66,26 @@ const SocketHandler = (req, res) => {
 
       socket.on('changeState', async (newState) => {
         if(newState === currentConfig.state) return;
-
-        if(newState === 1) {
-          io.emit('stateChanged', newState);
-        }
+        if(currentConfig.lock) return;
+        currentConfig = {
+          ...currentConfig,
+          state: newState,
+          lock: true,
+        };
+        io.emit('lockChanged', currentConfig.lock);
 
         try {
-          currentConfig = {
-            ...currentConfig,
-            state: newState,
-          };
           newState===1 ? await resume() : await pause() ;
+          io.emit('stateChanged', newState);
           
-          if(newState === 0) {
-            io.emit('stateChanged', newState);
-          }
-          io.emit('stateLockRelesed');
         } catch (error) {
           console.error('Error:', error);
         }
+        currentConfig = {
+          ...currentConfig,
+          lock: false,
+        };
+        io.emit('lockChanged', currentConfig.lock);
       });
       socket.on('getState', async () => {
         try {
@@ -116,8 +126,15 @@ const SocketHandler = (req, res) => {
 
       socket.on('changeSong', async (currentSong, newSong) => {
         try {
+          if(currentConfig.lock) return;
           // console.log("Changing song:", currentSong, newSong)
           // console.log('Changing song:', newSong)
+          currentConfig = {
+            ...currentConfig,
+            lock: true,
+          }
+          io.emit('lockChanged', currentConfig.lock);
+
           if (currentConfig.state === 1) await pause();
           changeSong(currentSong, newSong);
           currentConfig = {
@@ -144,10 +161,14 @@ const SocketHandler = (req, res) => {
           }
           io.emit('stateChanged', 0);
           io.emit('songChanged', newSong);
-          io.emit('stateLockRelesed');
         } catch (error) {
           console.error('Error changing song:', error);
         }
+        currentConfig = {
+          ...currentConfig,
+          lock: false,
+        }
+        io.emit('lockChanged', currentConfig.lock);
       });
       socket.on('micOn', () => {
         try {

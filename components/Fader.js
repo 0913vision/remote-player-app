@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from '@/styles/Fader.module.css'
 
-const Fader = ({ currentVolume = 50, onVolumeChange }) => {
+const Fader = ({ currentVolume = 50, onVolumeChange, isDisabled }) => {
   // const [volume, setVolume] = useState(currentVolume);
   const [faderHeight, setFaderHeight] = useState(0);
   const [thumbHeight, setThumbHeight] = useState(0);
@@ -32,7 +32,7 @@ const Fader = ({ currentVolume = 50, onVolumeChange }) => {
 
   const handleMouseDown = (e) => {
     e.preventDefault();
-
+    if(isDisabled) return;
     const { top, bottom } = thumbRef.current.getBoundingClientRect();
 
     if (e.clientY >= top && e.clientY <= bottom) {  // Thumb 안에서만 드래그 시작
@@ -45,6 +45,7 @@ const Fader = ({ currentVolume = 50, onVolumeChange }) => {
   };
 
   const handleTouchStart = (e) => {
+    if(isDisabled) return;
     const { top, bottom } = thumbRef.current.getBoundingClientRect();
 
     if (e.touches[0].clientY >= top && e.touches[0].clientY <= bottom) {
@@ -76,7 +77,8 @@ const Fader = ({ currentVolume = 50, onVolumeChange }) => {
         ref={thumbRef} 
         className={styles.thumb}
         style={{ 
-          bottom: `${(currentVolume / 100) * (faderHeight - thumbHeight)}px`
+          bottom: `${(currentVolume / 100) * (faderHeight - thumbHeight)}px`,
+          opacity: `${isDisabled ? 0.5 : 1}`,
         }}
       ></div>
     </div>
