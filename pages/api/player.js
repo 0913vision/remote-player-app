@@ -5,8 +5,8 @@ import array from 'ref-array-napi';
 import Struct from 'ref-struct-di';
 
 const StringArray = array('string');
-// const libmpvPath = '/opt/homebrew/lib/libmpv.dylib'; // 맥
-const libmpvPath = '/lib/arm-linux-gnueabihf/libmpv.so'; // 라즈베리파이
+const libmpvPath = '/opt/homebrew/lib/libmpv.dylib'; // 맥
+// const libmpvPath = '/lib/arm-linux-gnueabihf/libmpv.so'; // 라즈베리파이
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
