@@ -1,5 +1,5 @@
 import { SOCKET_EVENTS } from '../constants/serverConfig';
-import { auxOn, micOn } from '../console';
+import ConsoleHandler from '../console/ConsoleHandler.js';
 
 /**
  * Registers console-related socket event handlers (mixer controls)
@@ -8,25 +8,27 @@ import { auxOn, micOn } from '../console';
  * @param {Player} player - Player instance (not used for console operations)
  */
 export const registerConsoleHandlers = (socket, io, player) => {
+  const consoleHandler = new ConsoleHandler();
+
   /**
    * Handle microphone on request
    */
-  socket.on(SOCKET_EVENTS.C2S_MIC_ON_EVENT, () => {
+  socket.on(SOCKET_EVENTS.C2S_MIC_ON_EVENT, async () => {
     try {
-      micOn();
+      await consoleHandler.enablePastorMic();
     } catch (error) {
-      console.error('Error turning mic on:', error);
+      console.error('Error enabling pastor microphone:', error);
     }
   });
 
   /**
    * Handle auxiliary input on request
    */
-  socket.on(SOCKET_EVENTS.C2S_AUX_ON_EVENT, () => {
+  socket.on(SOCKET_EVENTS.C2S_AUX_ON_EVENT, async () => {
     try {
-      auxOn();
+      await consoleHandler.enableAux();
     } catch (error) {
-      console.error('Error turning aux on:', error);
+      console.error('Error enabling auxiliary input:', error);
     }
   });
 };

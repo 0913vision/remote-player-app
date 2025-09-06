@@ -6,18 +6,21 @@ export const DEVICE_CONFIG = {
     RASPBERRY_PI: '/lib/arm-linux-gnueabihf/libmpv.so'
   },
   
-  // Current platform (change as needed)
-  CURRENT_PLATFORM: 'MAC', // 'MAC' or 'RASPBERRY_PI'
+  // Current platform (automatically detected from Next.js build)
+  CURRENT_PLATFORM: process.env.PLATFORM, // 'MAC' or 'RASPBERRY_PI'
   
   // Audio file playlist
   PLAYLIST: [
-    './pages/api/music_slow.mp3',
-    './pages/api/music_fast.mp3'
+    './pages/api/assets/audio/music_slow.mp3',
+    './pages/api/assets/audio/music_fast.mp3'
   ],
   
   // Initial song times
   INITIAL_SONG_TIMES: {
     slow: 0.0,
     fast: 0.0
-  }
+  },
+
+  // Console configuration
+  CONSOLE_MODE: process.env.CONSOLE_MODE || 'X32' // 'X32' or 'MOCK'
 };
