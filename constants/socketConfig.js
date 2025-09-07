@@ -1,6 +1,6 @@
 // Socket configuration
 export const SOCKET_CONFIG = {
-  SOCKET_PATH: '/api/socket'
+  SOCKET_PATH: 'localhost:3000'
 };
 
 // Socket events

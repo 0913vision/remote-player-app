@@ -1,4 +1,4 @@
-import { PLAYER_STATE, MUTE_STATE, SONG_TYPE } from '@/constants/socket';
+import { PLAYER_STATE, MUTE_STATE, SONG_TYPE } from '@/constants/socketConfig';
 
 export const PLAYER_INITIAL_STATE = {
   volume: 50,

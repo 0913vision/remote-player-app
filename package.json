@@ -1,23 +1,16 @@
 {
   "name": "remote-player-app",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start"
   },
   "dependencies": {
-    "ffi-napi": "^4.0.3",
     "next": "13.5.4",
-    "osc": "^2.4.5",
     "react": "^18",
     "react-dom": "^18",
-    "ref-array-napi": "^1.2.2",
-    "ref-napi": "^3.0.3",
-    "ref-struct-di": "^1.1.1",
-    "socket.io": "^4.7.2",
     "socket.io-client": "^4.7.2"
   }
 }

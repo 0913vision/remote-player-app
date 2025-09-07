@@ -5,7 +5,7 @@ import {
   SOCKET_EVENTS, 
   PLAYER_STATE, 
   MUTE_STATE
-} from '@/constants/socket';
+} from '@/constants/socketConfig';
 import { PLAYER_INITIAL_STATE } from '@/constants/playerDefaults';
 
 const useSocket = () => {

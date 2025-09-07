@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import Fader from '@/components/Fader';
 import useSocket from '@/hooks/useSocket';
-import { SONG_TYPE } from '@/constants/socket';
+import { SONG_TYPE } from '@/constants/socketConfig';
 
 const Home = () => {
   const {
