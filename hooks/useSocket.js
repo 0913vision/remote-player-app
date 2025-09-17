@@ -30,11 +30,7 @@ const useSocket = () => {
 
     // Socket lifecycle
     initialize: async () => {
-      // TODO(0913version): 삭제예정 - 서버 분리 시 제거
-      await fetch('/api/socket');
-      socketRef.current = io({
-        path: SOCKET_CONFIG.SOCKET_PATH,
-      });
+      socketRef.current = io(SOCKET_CONFIG.SOCKET_PATH);
 
       socketManager.setupEventListeners();
     },
